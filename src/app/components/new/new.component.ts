@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {PostService} from "../../services/post.service";
+import Post from "../../dto/Post";
 
 @Component({
   selector: 'app-new',
@@ -22,16 +23,28 @@ export class NewComponent {
   });
 
   createData() {
-    this.postService.create(
+    // this.postService.create(
+    //   this.form.get('id')?.value,
+    //   this.form.get('userId')?.value,
+    //   this.form.get('title')?.value,
+    //   this.form.get('body')?.value
+    // ).subscribe(response => {
+    //   if (response) {
+    //     alert('Created!');
+    //   }
+    // })
+
+
+    let post = new Post(
       this.form.get('id')?.value,
-      this.form.get('userId')?.value,
-      this.form.get('title')?.value,
-      this.form.get('body')?.value
-    ).subscribe(response => {
-      if (response) {
-        alert('Created!');
-      }
-    })
+        this.form.get('userId')?.value,
+        this.form.get('title')?.value,
+        this.form.get('body')?.value
+    );
+
+    this.postService.createDataFireStore(post).then(r => {
+
+    });
   }
 
 }
