@@ -15,9 +15,12 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
-import { LoaderComponent } from './components/loader/loader.component';
+import {LoaderComponent} from './components/loader/loader.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {HttpManagerInterceptor} from "./components/interceptors/http-manager.interceptor";
+import {AngularFireModule} from "@angular/fire/compat";
+import {environment} from "../environments/environment";
+import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 
 @NgModule({
   declarations: [
@@ -29,21 +32,23 @@ import {HttpManagerInterceptor} from "./components/interceptors/http-manager.int
     DeleteComponent,
     LoaderComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatButtonModule,
-        HttpClientModule,
-        MatFormFieldModule,
-        MatInputModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatIconModule,
-        MatProgressSpinnerModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    HttpClientModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule
+  ],
   providers: [
-    {provide:HTTP_INTERCEPTORS, useClass:HttpManagerInterceptor, multi:true}
+    {provide: HTTP_INTERCEPTORS, useClass: HttpManagerInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })
