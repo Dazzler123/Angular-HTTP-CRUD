@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {AngularFirestore} from "@angular/fire/compat/firestore";
+import Post from "../dto/Post";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,7 @@ export class PostService {
 
   baseURL = 'https://jsonplaceholder.typicode.com/';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private fireStore:AngularFirestore) {
   }
 
   findAll(): Observable<any> {
@@ -24,13 +26,23 @@ export class PostService {
     return this.http.delete<any>(this.baseURL + 'posts/' + id);
   }
 
-  create(id: any, userId: any, title: any, body: any): Observable<any> {
-    return this.http.post<any>(this.baseURL + 'posts', {
-      id,
-      userId,
-      title,
-      body
-    });
+  // create(id: any, userId: any, title: any, body: any): Observable<any> {
+  //   return this.http.post<any>(this.baseURL + 'posts', {
+  //     id,
+  //     userId,
+  //     title,
+  //     body
+  //   });
+  // }
+
+  createDataFireStore (post:Post) {
+    this.fireStore.collection('post-data')
+      .add(post)
+      .then(response => {
+        console.log(response);
+      }, error => {
+        console.log(error);
+      })
   }
 
   update(id: any, userId: any, title: any, body: any): Observable<any> {
