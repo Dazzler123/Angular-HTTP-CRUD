@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import Post from "../dto/Post";
+import {resolve} from "@angular/compiler-cli/src/ngtsc/file_system";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class PostService {
 
   baseURL = 'https://jsonplaceholder.typicode.com/';
 
-  constructor(private http: HttpClient, private fireStore:AngularFirestore) {
+  constructor(private http: HttpClient, private fireStore: AngularFirestore) {
   }
 
   findAll(): Observable<any> {
@@ -35,14 +36,16 @@ export class PostService {
   //   });
   // }
 
-  createDataFireStore (post:Post) {
-    this.fireStore.collection('post-data')
-      .add(post)
-      .then(response => {
-        console.log(response);
-      }, error => {
-        console.log(error);
-      })
+  createDataFireStore(post: Post) {
+    return new Promise<any>((resolve, reject) => {
+      this.fireStore.collection('post-data')
+        .add(post)
+        .then(response => {
+          console.log(response);
+        }, error => {
+          console.log(error);
+        })
+    });
   }
 
   update(id: any, userId: any, title: any, body: any): Observable<any> {
